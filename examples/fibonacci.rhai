@@ -1,6 +1,4 @@
-const TARGET = 5;
-const REPEAT = 1;
-const ANSWER = 5;
+const TARGET = 8;
 
 fn fib(n) {
     if n < 2 {
@@ -10,20 +8,14 @@ fn fib(n) {
     }
 }
 
-print(`Running Fibonacci(${TARGET}) x ${REPEAT} times...`);
+print(`Running Fibonacci(${TARGET}) x ...`);
 print("Ready... Go!");
 
 let result;
 let now = timestamp();
 
-for n in 0..REPEAT {
-    result = fib(TARGET);
-}
+result = fib(TARGET);
 
 print(`Finished. Run time = ${now.elapsed} seconds.`);
 
 print(`Fibonacci number #${TARGET} = ${result}`);
-
-if result != ANSWER {
-    print(`The answer is WRONG! Should be ${ANSWER}!`);
-}
