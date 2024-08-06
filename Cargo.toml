@@ -12,3 +12,4 @@ enum_dispatch = "0.3.13"
 pyo3 = { version = "0.22.2", features = ["auto-initialize"] }
 rhai = "1.19.0"
 rquickjs = { version = "0.6.2", features = ["full"] }
+tokio = { version = "1.39.2", features = ["rt", "rt-multi-thread", "macros"] }
