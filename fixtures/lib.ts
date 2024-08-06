@@ -1,5 +1,4 @@
 async function execute(name: string): Promise<string> {
-  console.log('Executing lib');
   return `Hello ${name}!`
 }
 
