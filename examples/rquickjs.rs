@@ -1,11 +1,12 @@
 use anyhow::{Error, Result};
-use rquickjs::{Context, Function, Runtime};
+use rquickjs::{async_with, AsyncContext, AsyncRuntime, Context, Function, Promise, Runtime};
 
 fn log(msg: String) {
     println!("{msg}");
 }
 
-fn main() -> Result<()> {
+#[tokio::main]
+async fn main() -> Result<()> {
     let runtime = Runtime::new()?;
     let context = Context::full(&runtime)?;
 
@@ -16,12 +17,21 @@ fn main() -> Result<()> {
 
         ctx.eval(r#"log("Hello, World!")"#)?;
 
-        // Evaluate the JavaScript code
         let result: String = ctx.eval_file("examples/rquickjs.js").unwrap();
         // Print the result
         println!("{}", result);
         Ok::<_, Error>(())
     })?;
+
+    let rt = AsyncRuntime::new().unwrap();
+    let ctx = AsyncContext::full(&rt).await.unwrap();
+    async_with!(ctx=>|ctx|{
+       let p:Promise = ctx.eval(r#"async function say_hello(name) {return "hello " + name} say_hello("abc")"#)?;
+       let result:String = p.finish()?;
+       println!("{:?}", result);
+       Ok::<_, Error>(())
+    })
+    .await?;
 
     Ok(())
 }

@@ -1,6 +1,6 @@
 import { execute } from './lib.ts';
 
-async function main() {
+async function main(): Promise<string> {
   return await execute('world');
 }
 
