@@ -26,9 +26,12 @@ async fn main() -> Result<()> {
     let rt = AsyncRuntime::new().unwrap();
     let ctx = AsyncContext::full(&rt).await.unwrap();
     async_with!(ctx=>|ctx|{
-       let p:Promise = ctx.eval(r#"async function say_hello(name) {return "hello " + name} say_hello("abc")"#)?;
+       let func:Function = ctx.eval(r#"async function say_hello(name) {return "hello " + name} say_hello"#)?;
+       println!("{:?}", func);
+       let p:Promise = func.call(("world",))?;
+       println!("{:?}", p);
        let result:String = p.finish()?;
-       println!("{:?}", result);
+       println!("{}", result);
        Ok::<_, Error>(())
     })
     .await?;
